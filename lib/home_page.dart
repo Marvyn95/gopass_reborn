@@ -9,7 +9,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String selectedTab = 'All';
+  String selectedTab = 'Upcoming Events';
 
   final List<Map<String, dynamic>> events = [
     {
@@ -121,96 +121,135 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: Icon(Icons.menu, color: Colors.black87),
+        automaticallyImplyLeading: false,
+        title: Text(
+          'GoPass',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+        ),
+        centerTitle: false,
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: Icon(Icons.notifications_outlined, color: Colors.black87),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: CircleAvatar(
-              backgroundColor: Colors.grey[300],
-              child: Icon(Icons.person, color: Colors.white),
+            padding: EdgeInsets.only(right: 20, top: 2),
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  'assets/images/selfie.jpg',
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Tab Selection
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Row(
-                children: ['All', 'Now', 'Post', 'Draft'].map((tab) {
-                  final isSelected = selectedTab == tab;
-                  return Padding(
-                    padding: EdgeInsets.only(right: 24),
-                    child: GestureDetector(
-                      onTap: () => setState(() => selectedTab = tab),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            tab,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: isSelected ? Colors.black87 : Colors.grey[300],
-                            ),
-                          ),
-                          if (isSelected)
-                            Container(
-                              height: 2,
-                              width: 20,
-                              color: Colors.black87,
-                              margin: EdgeInsets.only(top: 4),
-                            ),
-                        ],
-                      ),
-                    ),
-                  );
-                }).toList(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Search Bar
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search events...',
+                hintStyle: TextStyle(color: Colors.grey[400]),
+                prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey[300]!),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey[300]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.black87),
+                ),
+                filled: true,
+                fillColor: Colors.grey[50],
+                contentPadding: EdgeInsets.symmetric(vertical: 12),
               ),
             ),
-            
-            // Events List Label
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Events list',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[500],
-                  fontWeight: FontWeight.w500,
+          ),
+
+          // Tab Selection
+
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+            child: Row(
+              children: ['Upcoming Events', 'Past Events'].map((tab) {
+                final isSelected = selectedTab == tab;
+                return Padding(
+                  padding: EdgeInsets.only(right: 24),
+                  child: GestureDetector(
+                    onTap: () => setState(() => selectedTab = tab),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          tab,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: isSelected ? Colors.black87 : Colors.grey[350],
+                          ),
+                        ),
+                        if (isSelected)
+                          Container(
+                            height: 2,
+                            width: 20,
+                            color: Colors.black87,
+                            margin: EdgeInsets.only(top: 4),
+                          ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+          
+          // // Events List Label
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 20),
+          //   child: Text(
+          //     'Events list',
+          //     style: TextStyle(
+          //       fontSize: 14,
+          //       color: Colors.grey[500],
+          //       fontWeight: FontWeight.w500,
+          //     ),
+          //   ),
+          // ),
+          
+          SizedBox(height: 4),
+
+          // Events Cards - Only this section scrolls
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: events.map((event) {
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 24),
+                      child: EventCard(event: event),
+                    );
+                  }).toList(),
                 ),
               ),
             ),
-            
-            SizedBox(height: 16),
-
-            // Events Cards
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: events.map((event) {
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 24),
-                    child: EventCard(event: event),
-                  );
-                }).toList(),
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: const Color(0xFFE63946),
-        shape: CircleBorder(),
-        child: Icon(Icons.add, color: Colors.white),
+          ),
+        ],
       ),
     );
   }
@@ -224,113 +263,195 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Status Label
-        Text(
-          event['name'],
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFFE63946),
-            letterSpacing: 0.5,
-          ),
-        ),
-        SizedBox(height: 8),
-        
-        // Card
-        Container(
-          height: 180,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            image: DecorationImage(
-              image: AssetImage(event['image']),
-              fit: BoxFit.cover,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black,
-                blurRadius: 8,
-                offset: Offset(0, 4),
+        // Left Column - Going Now
+        Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Going',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFFE63946),
+                  letterSpacing: 0.5,
+                ),
+              ),
+              Text(
+                'Now',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                  letterSpacing: 0.5,
+                ),
+              ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    radius: 14,
+                    backgroundImage: AssetImage('assets/images/selfie.jpg'),
+                  ),
+                  SizedBox(height: 2),
+                  CircleAvatar(
+                    radius: 14,
+                    backgroundImage: AssetImage('assets/images/selfie.jpg'),
+                  ),
+                  SizedBox(height: 2),
+                  CircleAvatar(
+                    radius: 14,
+                    backgroundImage: AssetImage('assets/images/selfie.jpg'),
+                  ),
+                ],
+              ),
+              SizedBox(height: 5),
+              Container(
+                width: 2,
+                height: 8,
+                color: Colors.grey,
+              ),
+              SizedBox(height: 5),
+              Container(
+                width: 2,
+                height: 5,
+                color: Colors.grey,
+              ),
+              SizedBox(height: 5),
+              Container(
+                width: 2,
+                height: 8,
+                color: Colors.grey,
+              ),
+              Text(
+                '5',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFFE63946),
+                ),
               ),
             ],
           ),
-          child: Stack(
+        ),
+        SizedBox(width: 4),
+        // Right Column - Event Card
+        Expanded(
+          flex: 6,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Dark overlay
+              SizedBox(height: 8),
+              // Card
               Container(
+                height: 200,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  color: Colors.black,
+                  image: DecorationImage(
+                    image: AssetImage(event['image']),
+                    fit: BoxFit.cover,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 8,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
                 ),
-              ),
-              
-              // Content
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Stack(
                   children: [
-                    // Badge
+                    // Dark overlay
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        event['date'],
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFFE63946),
-                          letterSpacing: 0.5,
-                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        color: const Color.fromRGBO(0, 0, 0, 0.4),
                       ),
                     ),
                     
-                    // Event Details
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          event['name'],
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            height: 1.2,
+                    // Content
+                    Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          // Event Details
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                                Align(
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFE63946),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    "canon events",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.white,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                event['name'],
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  height: 1.2,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Icon(Icons.grade, color: Colors.white, size: 14),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    event['category'],
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(width: 12),
+                                  Icon(Icons.calendar_today, color: Colors.white, size: 14),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    event['date'],
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(width: 12),
+                                  Icon(Icons.access_time, color: Colors.white, size: 14),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    event['start_time'],
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Icon(Icons.music_note, color: Colors.white, size: 14),
-                            SizedBox(width: 4),
-                            Text(
-                              event['category'],
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(width: 12),
-                            Icon(Icons.access_time, color: Colors.white, size: 14),
-                            SizedBox(width: 4),
-                            Text(
-                              event['date'],
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -338,6 +459,7 @@ class EventCard extends StatelessWidget {
             ],
           ),
         ),
+        SizedBox(width: 10),
       ],
     );
   }
