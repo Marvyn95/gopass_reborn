@@ -122,6 +122,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false,
+        surfaceTintColor: Colors.white,
         title: Text(
           'GoPass',
           style: TextStyle(
