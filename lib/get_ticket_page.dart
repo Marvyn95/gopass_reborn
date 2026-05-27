@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'get_ticket_page.dart';
 
-class EventDetailPage extends StatelessWidget {
+class GetTicketPage extends StatelessWidget {
   final Map<String, dynamic> event;
   
-  const EventDetailPage({super.key, required this.event});
+  const GetTicketPage({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,7 @@ class EventDetailPage extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          '',
+          'Buy Tickets Here',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -449,13 +448,8 @@ class EventDetailPage extends StatelessWidget {
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 22),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => GetTicketPage(event: event)),
-                      );
-                    },
-                    child: Text('Book Now ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                    onPressed: () {},
+                    child: Text('Book Now', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                   ),
                 ),
                 SizedBox(width: 14)

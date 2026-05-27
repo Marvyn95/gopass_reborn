@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'event_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -135,7 +134,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: false,
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 20, top: 2),
+            padding: EdgeInsets.only(right: 20, top: 5),
             child: Container(
               width: 50,
               height: 50,
