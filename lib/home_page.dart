@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'event_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -139,10 +140,10 @@ class _HomePageState extends State<HomePage> {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(10),
                 child: Image.asset(
                   'assets/images/selfie.jpg',
                   fit: BoxFit.cover,
@@ -347,114 +348,123 @@ class EventCard extends StatelessWidget {
             children: [
               SizedBox(height: 8),
               // Card
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  image: DecorationImage(
-                    image: AssetImage(event['image']),
-                    fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/event_detail_page',
+                    arguments: event,
+                  );
+                },
+                child: Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    image: DecorationImage(
+                      image: AssetImage(event['image']),
+                      fit: BoxFit.cover,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 8,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 8,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    // Dark overlay
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        color: const Color.fromRGBO(0, 0, 0, 0.4),
+                  child: Stack(
+                    children: [
+                      // Dark overlay
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: const Color.fromRGBO(0, 0, 0, 0.4),
+                        ),
                       ),
-                    ),
-                    
-                    // Content
-                    Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          // Event Details
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                                Align(
-                                alignment: Alignment.centerLeft,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFE63946),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: Text(
-                                    "canon events",
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.white,
-                                      letterSpacing: 0.5,
+                      
+                      // Content
+                      Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            // Event Details
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                  Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFE63946),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      "canon events",
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.white,
+                                        letterSpacing: 0.5,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(height: 8),
-                              Text(
-                                event['name'],
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  height: 1.2,
+                                SizedBox(height: 8),
+                                Text(
+                                  event['name'],
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    height: 1.2,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  Icon(Icons.grade, color: Colors.white, size: 14),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    event['category'],
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.white,
+                                SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    Icon(Icons.grade, color: Colors.white, size: 14),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      event['category'],
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(width: 12),
-                                  Icon(Icons.calendar_today, color: Colors.white, size: 14),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    event['date'],
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.white,
+                                    SizedBox(width: 12),
+                                    Icon(Icons.calendar_today, color: Colors.white, size: 14),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      event['date'],
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(width: 12),
-                                  Icon(Icons.access_time, color: Colors.white, size: 14),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    event['start_time'],
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.white,
+                                    SizedBox(width: 12),
+                                    Icon(Icons.access_time, color: Colors.white, size: 14),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      event['start_time'],
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
